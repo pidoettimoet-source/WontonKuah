@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WONTON KUAH - Hangatnya Bikin Nagih!</title>
+  <style>
+    /* Reset & base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0; font-family: 'Poppins', sans-serif;
+      background: #fff8f0;
+      color: #3a2a21;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+    img {
+      max-width: 100%; height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    img:hover {
+      transform: scale(1.05);
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    h1,h2,h3,h4 {
+      font-weight: 700;
+      margin-top: 0;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+    button {
+      cursor: pointer;
+      border-radius: 30px;
+      border: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:focus {
+      outline: 3px solid #ff5700;
+      outline-offset: 4px;
+    }
+    /* Scroll animation */
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    [data-animate].animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Colors */
+    :root {
+      --red-cabai: #dc2f02;
+      --orange: #f97316;
+      --cream-white: #fff8f0;
+      --black-alpha: rgba(0,0,0,0.85);
+      --shadow-light: rgba(0,0,0,0.08);
+      --shadow-dark: rgba(0,0,0,0.15);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .section {
+      padding: 4rem 0 3rem 0;
+    }
+    .section-sm {
+      padding: 2rem 0 1.5rem 0;
+    }
+    /* Header & Nav */
+    header {
+      background: var(--cream-white);
+      box-shadow: 0 2px 10px var(--shadow-light);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: var(--red-cabai);
+      font-family: 'Pacifico', cursive;
+      letter-spacing: 0.06em;
+      user-select: none;
+      text-shadow: 1px 1px 5px var(--orange);
+      flex-shrink: 0;
+    }
+    nav ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav li a {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--black-alpha);
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s;
+      user-select: none;
+    }
+    nav li a:hover,
+    nav li a:focus-visible {
+      background: var(--red-cabai);
+      color: white;
+      outline: none;
+      box-shadow: 0 0 10px var(--orange);
+    }
+    .btn-wp {
+      background: var(--red-cabai);
+      color: white;
+      padding: 0.6rem 1.25rem;
+      box-shadow: 0 4px 10px var(--orange);
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 30px;
+      user-select: none;
+      transition: background-color 0.3s, box-shadow 0.4s ease;
+    }
+    .btn-wp:hover,
+    .btn-wp:focus-visible {
+      background: var(--orange);
+      box-shadow: 0 6px 15px #ff5200dd;
+      outline: none;
+    }
+    .btn-wp svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
+    /* Mobile Nav Toggle */
+    .nav-toggle {
+      display: none;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      width: 24px;
+      height: 24px;
+    }
+    .nav-toggle span {
+      height: 3px;
+      background: var(--red-cabai);
+      border-radius: 2px;
+      display: block;
+      transition: 0.3s ease;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        position: fixed;
+        top: 68px;
+        left: 0;
+        right: 0;
+        background: var(--cream-white);
+        flex-direction: column;
+        padding: 1.5rem 1rem;
+        border-top: 2px solid var(--red-cabai);
+        box-shadow: 0 5px 20px var(--shadow-light);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+        z-index: 900;
+      }
+      nav.open ul {
+        max-height: 300px;
+      }
+      nav li a {
+        padding: 0.8rem 1rem;
+        font-size: 1.2rem;
+      }
+      .nav-toggle {
+        display: flex;
+      }
+    }
+
+    /* Hero Section */
+    #hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      padding-bottom: 3rem;
+    }
+    #hero .text-content {
+      flex: 1;
+      max-width: 600px;
+    }
+    #hero h1 {
+      font-size: 2.8rem;
+      color: var(--red-cabai);
+      margin-bottom: 1rem;
+      text-shadow: 1.5px 1.5px 5px var(--orange);
+      letter-spacing: 0.05em;
+    }
+    #hero p {
+      font-size: 1.2rem;
+      color: #4a3932;
+      margin-bottom: 2rem;
+      font-weight: 500;
+    }
+    #hero .buttons {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--red-cabai);
+      color: white;
+      padding: 0.9rem 2.25rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      box-shadow: 0 6px 15px var(--orange);
+      transition: background-color 0.4s ease, box-shadow 0.4s ease;
+      user-select: none;
+    }
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+      background: var(--orange);
+      box-shadow: 0 8px 20px #ff5200dd;
+      outline: none;
+    }
+    #hero .btn-secondary {
+      background: transparent;
+      border: 2.5px solid var(--red-cabai);
+      color: var(--red-cabai);
+      padding: 0.85rem 2.25rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      border-radius: 30px;
+      transition: background-color 0.4s, color 0.4s;
+      user-select: none;
+    }
+    #hero .btn-secondary:hover,
+    #hero .btn-secondary:focus-visible {
+      background: var(--red-cabai);
+      color: white;
+      outline: none;
+    }
+    #hero img.hero-img {
+      max-width: 460px;
+      border-radius: 36px;
+      box-shadow: 0 15px 35px rgba(220, 47, 2, 0.45);
+      object-fit: cover;
+      transform-origin: center center;
+      transition: transform 0.6s ease;
+      will-change: transform;
+    }
+    #hero img.hero-img:hover {
+      transform: scale(1.05) rotate(1deg);
+    }
+    /* Decorative shapes (circles/orbs) in hero */
+    #hero .decorative-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatOrbs 12s ease-in-out infinite alternate;
+    }
+    #orb1 {
+      background: var(--red-cabai);
+      width: 150px;
+      height: 150px;
+      top: 120px;
+      left: 6%;
+      animation-delay: 0s;
+    }
+    #orb2 {
+      background: var(--orange);
+      width: 120px;
+      height: 120px;
+      top: 220px;
+      right: 12%;
+      animation-delay: 3s;
+    }
+    #orb3 {
+      background: var(--red-cabai);
+      width: 250px;
+      height: 250px;
+      top: 10%;
+      right: 0;
+      animation-delay: 6s;
+    }
+    @keyframes floatOrbs {
+      0%   { transform: translateY(0) translateX(0) scale(1);}
+      50%  { transform: translateY(-25px) translateX(10px) scale(1.05);}
+      100% { transform: translateY(0) translateX(0) scale(1);}
+    }
+
+    /* Menu Section */
+    #menu .section-title {
+      text-align: center;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--red-cabai);
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 5px var(--orange);
+    }
+    #menu .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .menu-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 15px var(--shadow-light);
+      overflow: hidden;
+      transition: box-shadow 0.4s, transform 0.4s;
+      display: flex;
+      flex-direction: column;
+    }
+    .menu-card:hover,
+    .menu-card:focus-within {
+      box-shadow: 0 15px 30px var(--shadow-dark);
+      transform: translateY(-8px);
+      outline: none;
+    }
+    .menu-card img {
+      flex-shrink: 0;
+      object-fit: cover;
+      height: 180px;
+      width: 100%;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.15);
+      filter: brightness(1.03);
+    }
+    .menu-content {
+      padding: 1.5rem 1.8rem 2rem 1.8rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .menu-title {
+      font-size: 1.4rem;
+      color: var(--red-cabai);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.02em;
+    }
+    .menu-desc {
+      flex-grow: 1;
+      font-size: 1rem;
+      color: #574339;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .menu-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--orange);
+      letter-spacing: 0.05em;
+    }
+    .order-btn {
+      background: var(--red-cabai);
+      color: white;
+      padding: 0.6rem 1.25rem;
+      border-radius: 24px;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 6px 15px var(--orange);
+      align-self: flex-start;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      border: none;
+    }
+    .order-btn:hover,
+    .order-btn:focus-visible {
+      background: var(--orange);
+      outline: none;
+      box-shadow: 0 8px 20px #ff5200dd;
+    }
+
+    /* Order Form Section */
+    #order {
+      max-width: 840px;
+      margin: 2rem auto 6rem;
+      background: white;
+      border-radius: 25px;
+      padding: 2.5rem 3rem;
+      box-shadow: 0 10px 35px var(--shadow-light);
+      color: #4a3a2a;
+    }
+    #order h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--red-cabai);
+      margin-bottom: 1.5rem;
+      text-shadow: 1px 1px 5px var(--orange);
+    }
+    #order form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+    .variant-select {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      justify-content: space-around;
+    }
+    .variant-item {
+      flex: 1 1 110px;
+      min-width: 110px;
+      max-width: 130px;
+      background: #fff3eb;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px var(--shadow-light);
+      padding: 0.75rem 1rem;
+      text-align: center;
+      user-select: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border: 2px solid transparent;
+    }
+    .variant-item img {
+      border-radius: 12px;
+      height: 90px;
+      margin-bottom: 0.5rem;
+    }
+    .variant-item .name {
+      font-weight: 700;
+      color: var(--red-cabai);
+      font-size: 1.1rem;
+    }
+    .variant-item .price {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--orange);
+      margin-top: 0.15rem;
+      user-select: text;
+    }
+    .variant-item.selected {
+      border-color: var(--red-cabai);
+      background: #ffd6c8;
+      box-shadow: 0 4px 18px var(--red-cabai);
+    }
+    .variant-qty {
+      margin-top: 0.4rem;
+    }
+    .variant-qty input[type=number] {
+      width: 60px;
+      font-size: 1rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 10px;
+      border: 1.8px solid #d0a28a;
+      text-align: center;
+      font-weight: 600;
+      color: var(--black-alpha);
+      user-select: text;
+      transition: border-color 0.3s;
+    }
+    .variant-qty input[type=number]:focus {
+      border-color: var(--red-cabai);
+      outline: none;
+      box-shadow: 0 0 10px #dc4a1e88;
+    }
+    /* Summary */
+    #order-summary {
+      background: #fff0e6;
+      border-radius: 16px;
+      box-shadow: inset 0 0 18px #f2c4b8;
+      padding: 1.25rem 1.75rem;
+      font-size: 1rem;
+      color: #6d514a;
+      user-select: none;
+      margin-top: 0.75rem;
+      min-height: 100px;
+      max-height: 320px;
+      overflow-y: auto;
+      border: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+    #order-summary.active {
+      border-color: var(--red-cabai);
+    }
+    #order-summary ul {
+      list-style: inside disc;
+      margin: 0;
+      padding-left: 0;
+    }
+    #order-summary li {
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #8a4c21;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .input-group label {
+      font-weight: 600;
+      color: var(--red-cabai);
+    }
+    .input-group input,
+    .input-group textarea {
+      border-radius: 12px;
+      border: 1.5px solid #d8b8a3;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      color: #402f26;
+      font-weight: 600;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+    .input-group input:focus,
+    .input-group textarea:focus {
+      border-color: var(--red-cabai);
+      outline: none;
+      box-shadow: 0 0 12px #dd512a77;
+    }
+    #btn-send {
+      background: var(--red-cabai);
+      color: white;
+      padding: 1rem 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 30px;
+      box-shadow: 0 6px 18px var(--orange);
+      border: none;
+      user-select: none;
+      transition: background-color 0.3s ease, box-shadow 0.4s ease;
+    }
+    #btn-send:disabled {
+      background: #f19475;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    #btn-send:hover:not(:disabled),
+    #btn-send:focus-visible:not(:disabled) {
+      background: var(--orange);
+      box-shadow: 0 8px 25px #ff5e00dd;
+      outline: none;
+    }
+
+    /* Keunggulan Section */
+    #advantages {
+      background: #fff3eb;
+      border-radius: 25px;
+      padding: 3rem 1.5rem;
+      box-shadow: 0 10px 30px #f6d3c4aa;
+    }
+    #advantages .section-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--red-cabai);
+      margin-bottom: 2rem;
+      text-align: center;
+      text-shadow: 1px 1px 5px var(--orange);
+    }
+    #advantages .advantage-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 1000px;
+    }
+    #advantages li {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 6px 18px var(--shadow-light);
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      color: #5a3c2c;
+      user-select: none;
+      transition: box-shadow 0.3s ease;
+    }
+    #advantages li:hover,
+    #advantages li:focus-visible {
+      box-shadow: 0 12px 28px var(--red-cabai);
+      outline: none;
+    }
+    #advantages .icon {
+      font-size: 3rem;
+      color: var(--red-cabai);
+      margin-bottom: 0.8rem;
+      user-select: none;
+    }
+    #advantages .adv-text {
+      font-weight: 600;
+      font-size: 1.15rem;
+    }
+
+    /* Tentang Kami Section */
+    #about {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff8f0;
+      padding: 2.5rem 1.7rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 22px #f5c5b3aa;
+      color: #503d31;
+    }
+    #about h2 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--red-cabai);
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px 5px var(--orange);
+      text-align: center;
+    }
+    #about p {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      text-align: center;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 600;
+    }
+
+    /* Testimoni Section */
+    #testimoni {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-bottom: 4rem;
+    }
+    #testimoni h2 {
+      text-align: center;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--red-cabai);
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 5px var(--orange);
+    }
+    .testi-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap: 1.8rem;
+    }
+    .testi-card {
+      background: white;
+      border-radius: 22px;
+      box-shadow: 0 6px 20px var(--shadow-light);
+      padding: 1.9rem 2rem 2rem 2rem;
+      font-size: 1rem;
+      color: #5b3f2d;
+      position: relative;
+      user-select: none;
+      transition: box-shadow 0.4s ease;
+    }
+    .testi-card:hover,
+    .testi-card:focus-within {
+      box-shadow: 0 12px 32px var(--red-cabai);
+      outline: none;
+    }
+    .testi-quote {
+      font-style: italic;
+      margin-bottom: 1.2rem;
+      color: #6f4f3c;
+      line-height: 1.5;
+    }
+    .testi-author {
+      font-weight: 700;
+      color: var(--red-cabai);
+    }
+    .testi-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: var(--orange);
+      color: white;
+      padding: 0.15rem 0.75rem;
+      border-radius: 20px;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      user-select: none;
+    }
+
+    /* Kontak & Footer */
+    footer {
+      background: var(--red-cabai);
+      color: white;
+      text-align: center;
+      padding: 2.2rem 1.5rem;
+      position: relative;
+      font-weight: 600;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+    footer nav {
+      margin-bottom: 1.3rem;
+    }
+    footer nav a {
+      margin: 0 1rem;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      text-shadow: 0 0 3px #fa7358dd;
+    }
+    footer p {
+      font-style: italic;
+      color: #ffd1c2;
+      margin: 0;
+    }
+    .btn-wp-footer {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      background: white;
+      color: var(--red-cabai);
+      font-weight: 700;
+      padding: 0.45rem 1rem;
+      border-radius: 30px;
+      box-shadow: 0 3px 10px #d74b1bcc;
+      transition: background-color 0.3s, color 0.3s, box-shadow 0.4s;
+      user-select: none;
+      border: none;
+      font-size: 1rem;
+    }
+    .btn-wp-footer:hover,
+    .btn-wp-footer:focus-visible {
+      background: var(--orange);
+      color: white;
+      box-shadow: 0 5px 18px #ff551900;
+      outline: none;
+    }
+    .btn-wp-footer svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--red-cabai);
+      transition: fill 0.3s ease;
+    }
+    .btn-wp-footer:hover svg,
+    .btn-wp-footer:focus-visible svg {
+      fill: white;
+    }
+
+    /* Floating WhatsApp Button */
+    #wp-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--red-cabai);
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      box-shadow: 0 6px 18px var(--orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.4s ease;
+      z-index: 1100;
+      user-select: none;
+    }
+    #wp-float:hover,
+    #wp-float:focus-visible {
+      background: var(--orange);
+      box-shadow: 0 8px 26px #ff5e00dd;
+      outline: none;
+    }
+    #wp-float svg {
+      width: 28px;
+      height: 28px;
+      fill: white;
+    }
+
+    /* Responsive tweaks */
+    @media(max-width: 1024px){
+      #hero {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+      #hero .text-content {
+        max-width: 100%;
+      }
+      #hero img.hero-img {
+        max-width: 290px;
+        margin-bottom: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="#hero" class="logo" aria-label="Logo Wonton Kuah">WONTON KUAH</a>
+      <nav id="nav" aria-label="Navigasi utama">
+        <ul>
+          <li><a href="#hero" tabindex="0">Beranda</a></li>
+          <li><a href="#menu" tabindex="0">Menu</a></li>
+          <li><a href="#about" tabindex="0">Tentang Kami</a></li>
+          <li><a href="#order" tabindex="0">Cara Pemesanan</a></li>
+          <li><a href="#kontak" tabindex="0">Kontak</a></li>
+        </ul>
+      </nav>
+      <button id="navToggle" aria-label="Toggle Navigasi" aria-expanded="false" class="nav-toggle" aria-controls="nav">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="https://wa.me/6281999986745" class="btn-wp" target="_blank" rel="noopener" aria-label="Pesan Sekarang via WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.52 3.478C18.798 1.755 16.455 1 14.028 1 7.785 1 2.63 6.158 2.629 12.4c0 2.127.7 4.165 2.007 5.77L1 22l4.096-2.648a11.996 11.996 0 007.326 2.586h.002c6.243.002 11.397-5.156 11.398-11.398 0-2.425-.756-4.768-2.3-6.462zm-6.363 14.416c-1.422 0-2.77-.384-3.936-1.109l-.282-.16-2.92.751.78-2.841-.18-.298c-1.102-1.823-1.38-3.905-.78-5.87.498-1.644 1.522-2.823 3.138-3.72 1.548-.863 3.343-1.01 5.08-.41 1.831.655 3.157 2.293 3.556 4.236.468 2.24-.21 4.68-1.875 6.25-.826.778-2.03 1.206-3.702 1.206zm3.302-7.588c-.184-.028-1.078-.484-1.246-.54-.165-.055-.287-.028-.412.028-.127.055-.504.58-.62.7-.117.12-.232.133-.43.046-.198-.09-.832-.31-1.58-.972-.586-.52-.982-1.16-1.1-1.354-.114-.2-.012-.308.084-.406.087-.086.194-.227.29-.342.094-.117.126-.2.19-.334.063-.133.03-.247-.015-.344-.045-.094-.41-.987-.562-1.346-.147-.35-.296-.304-.412-.31l-.352-.007c-.12 0-.314.045-.477.223-.16.177-.61.6-.61 1.466s.625 1.705.712 1.823c.09.116 1.23 1.88 2.987 2.635 1.355.59 1.914.623 2.598.524.42-.066 1.288-.527 1.47-1.04.183-.514.183-.953.128-1.04-.058-.09-.213-.143-.447-.243z"/></svg>
+        Pesan Sekarang
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="container section" aria-label="Beranda Wonton Kuah">
+      <div class="text-content" data-animate>
+        <h1>WONTON KUAH, <br>HANGATNYA BIKIN NAGIH!</h1>
+        <p>Nikmati lezatnya wonton lembut dengan kuah gurih yang hangat. Pilih rasa favoritmu dan rasakan kenikmatan di setiap suapan!</p>
+        <div class="buttons">
+          <a href="#menu" class="btn-secondary" tabindex="0">Lihat Menu</a>
+          <a href="https://wa.me/6281999986745" target="_blank" rel="noopener" class="btn-primary" tabindex="0" aria-label="Pesan Sekarang via WhatsApp">Pesan Sekarang</a>
+        </div>
+      </div>
+      <div style="position: relative; flex-shrink: 0;">
+        <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=600&q=80" alt="Sepiring Wonton kuah panas dan menggugah selera" class="hero-img" onerror="this.src='https://via.placeholder.com/460x360?text=Wonton+Kuah+Lezat'"/>
+        <div id="orb1" class="decorative-orb"></div>
+        <div id="orb2" class="decorative-orb"></div>
+        <div id="orb3" class="decorative-orb"></div>
+      </div>
+    </section>
+
+    <section id="menu" class="section container" aria-label="Menu Wonton Kuah">
+      <h2 class="section-title" data-animate>Menu & Harga</h2>
+      <div class="cards" data-animate>
+        <!-- Menu 1 -->
+        <article class="menu-card" tabindex="0" aria-labelledby="menu1-title" aria-describedby="menu1-desc menu1-price">
+          <img src="https://images.unsplash.com/photo-1600718376396-c0855030c257?auto=format&fit=crop&w=600&q=80" alt="Wonton kuah original dengan sup gurih" onerror="this.src='https://via.placeholder.com/400x180?text=Wonton+Kuah+Original'"/>
+          <div class="menu-content">
+            <h3 id="menu1-title" class="menu-title">Wonton Kuah Original</h3>
+            <p id="menu1-desc" class="menu-desc">Kuah gurih dengan wonton lembut yang cocok dinikmati kapan saja.</p>
+            <p id="menu1-price" class="menu-price">Rp 8.000</p>
+            <button type="button" class="order-btn" data-menu="Wonton Kuah Original" data-price="8000" aria-label="Pesan Wonton Kuah Original">Pesan</button>
+          </div>
+        </article>
+        <!-- Menu 2 -->
+        <article class="menu-card" tabindex="0" aria-labelledby="menu2-title" aria-describedby="menu2-desc menu2-price">
+          <img src="https://images.unsplash.com/photo-1628005621744-68b9d27b041d?auto=format&fit=crop&w=600&q=80" alt="Wonton kuah spicy dengan cabai merah segar" onerror="this.src='https://via.placeholder.com/400x180?text=Wonton+Kuah+Spicy'"/>
+          <div class="menu-content">
+            <h3 id="menu2-title" class="menu-title">Wonton Kuah Spicy</h3>
+            <p id="menu2-desc" class="menu-desc">Sensasi kuah pedas yang menggigit untuk kamu pencinta rasa pedas.</p>
+            <p id="menu2-price" class="menu-price">Rp 10.000</p>
+            <button type="button" class="order-btn" data-menu="Wonton Kuah Spicy" data-price="10000" aria-label="Pesan Wonton Kuah Spicy">Pesan</button>
+          </div>
+        </article>
+        <!-- Menu 3 -->
+        <article class="menu-card" tabindex="0" aria-labelledby="menu3-title" aria-describedby="menu3-desc menu3-price">
+          <img src="https://images.unsplash.com/photo-1628877326075-fca1cfb364ff?auto=format&fit=crop&w=600&q=80" alt="Wonton kuah keju dengan kejutan keju meleleh" onerror="this.src='https://via.placeholder.com/400x180?text=Wonton+Kuah+Keju'"/>
+          <div class="menu-content">
+            <h3 id="menu3-title" class="menu-title">Wonton Kuah Keju</h3>
+            <p id="menu3-desc" class="menu-desc">Perpaduan wonton lembut dengan cita rasa keju yang creamy dan lezat.</p>
+            <p id="menu3-price" class="menu-price">Rp 12.000</p>
+            <button type="button" class="order-btn" data-menu="Wonton Kuah Keju" data-price="12000" aria-label="Pesan Wonton Kuah Keju">Pesan</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="order" class="section container" aria-label="Form Pemesanan Wonton Kuah">
+      <h2 data-animate>Cara Pemesanan</h2>
+      <form id="orderForm" novalidate>
+        <fieldset aria-describedby="select-desc" style="border:none; padding:0;">
+          <legend id="select-desc" style="font-weight:700; color:var(--red-cabai); margin-bottom:0.8rem;">Pilih varian wonton yang ingin dipesan dan sesuaikan jumlahnya:</legend>
+          <div class="variant-select" id="variant-select">
+            <!-- Variants inserted by JS -->
+          </div>
+        </fieldset>
+
+        <div id="order-summary" aria-live="polite"
